@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Machine</title>
+</head>
+<body>
+    <div id="drum-machine">
+        <p id="display">
+            Playing Nothing
+        </p>
+        <div id="drum-pad">
+        </div>
+    </div>
+    <script>
+        const list = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'];
+        const urlList = ['Heater-1','Heater-2','Heater-3','Heater-4_1','Heater-6','Dsc_Oh','Bld_H1','Kick_n_Hat','RP4_KICK_1'];
+        const audioObj = [];
+        for (item in urlList){
+            let audio = new Audio(`https://s3.amazonaws.com/freecodecamp/drums/${urlList[item]}.mp3`);
+            audioObj.push(audio);
+        }
+        for (item in list){
+            let btn = document.createElement('button');
+            btn.innerHTML = list[item];
+            btn.setAttribute('id', list[item]);
+            btn.setAttribute('class', 'drum-pad');
+            btn.setAttribute('onclick', `playSound('${list[item]}')`);
+            document.getElementById('drum-pad').appendChild(btn);
+        }
+        onkeypress = function(e){playSound(e.key)}
+        
+        function playSound(key) {
+            let idx= list.indexOf(key.toUpperCase())
+            if( idx > -1){
+                audioObj[idx].play();
+                document.getElementById("display").innerText = `playing ${urlList[idx]}`;
+            }
+        }
+    </script>
+</body>
+</html>
