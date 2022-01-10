@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div id="wrapper">
+            <div id="quote-box">
+                <div id="text">
+                    Waiting For Random Quote
+                </div>
+                <div id="author">
+                    Developer
+                </div>
+                <div id="buttons">
+                    <button id="tweet-quote" onclick="tweetQuote()">Tweet Quote</button>
+                    <button id="new-quote" onclick="newQuote()"  >New Quote</button>
+                </div>
+            </div>
+        </div>
+    <script >
+            let text = document.getElementById('text');
+            let author = document.getElementById('author');
+            //fetches random quote from api
+            newQuote();
+            function newQuote(){
+            fetch('https://api.quotable.io/random').then(response => response.json()).then(data => {
+                console.log(data.content);
+                text.innerText = data.content;
+                author.innerText = `by ${data.author}`;
+            }).catch(error => {
+                console.log(error);
+            });
+            }
+            //tweet quote
+            function tweetQuote(){
+                let url = "https://twitter.com/intent/tweet?text="+encodeURIComponent(text.innerText)+"%0D%0A-"+encodeURIComponent(author.innerText);
+                window.open(url, '_blank');
+            }
+    </script>
+</body>
+</html>
