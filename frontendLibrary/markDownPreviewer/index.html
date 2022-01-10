@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarkDown Previewer</title>
+</head>
+<body>
+    <div id="app">
+        <div id="editor">
+            <textarea name="markdown" id="markdownText" cols="100" rows="20"
+                v-model="markdownText"
+            onkeypress="updateMarkdown()"
+            id="markdown">
+            </textarea>
+        </div>
+        <div id="preview">
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data: function() {
+                    return { 
+                        markdownText : '# Helllo world',
+                    }
+            }
+        }).mount('#app');
+        document.getElementById('preview').innerHTML = marked.parse(app.$data.markdownText);
+        function updateMarkdown(){
+            document.getElementById('preview').innerHTML = marked.parse(app.$data.markdownText);
+        }
+        </script>
+</body>
+</html>
