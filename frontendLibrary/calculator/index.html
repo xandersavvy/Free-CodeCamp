@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator
+    </title>
+
+    <style>
+        p{
+            border: solid black 1px;
+            padding: 10px;
+        }
+        p::after{
+            content: "|";
+            animation: cursorCal 500ms 0ms infinite;
+        }
+        @keyframes cursorCal {
+            from { opacity: 0;}
+            to { opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+        <div id="app">
+            <p id="display"></p>
+            <div id="keypad"></div>
+        </div>
+        <script>
+            const numbers=['0','1','2','3','4','5','6','7','8','9','+','-','*','.','/','C','CE','='];
+            let display=document.getElementById('display');
+            let keypad=document.getElementById('keypad');
+            for(number in numbers){
+                let button=document.createElement('button');
+                button.innerHTML=numbers[number];
+                button.className='number';
+                button.setAttribute('id',numbers[number]);
+                button.setAttribute('onclick','calculate(this.id)');
+                keypad.appendChild(button);
+            }
+            onkeypress = function(e){
+                const key=e.key;
+                const idx=numbers.indexOf(key);
+                if(key=='Enter'){
+                    calculate('=');
+                }else if(key=='Delete'){
+                    calculate('CE');
+                }else if(idx > -1){
+                    calculate(key);
+                }
+            }
+
+            let fl=0;
+            function calculate(id){
+                if(id=='C'){
+                    display.innerHTML='';
+                }
+                else if(id=='CE'){
+                    display.innerHTML=display.innerHTML.slice(0,-1);
+                }
+                else if(id=='='){
+                    display.innerHTML=eval(display.innerHTML);
+                    fl=0;
+                }else if(fl!==0){
+                    display.innerHTML+=id;
+                }else{
+                    display.innerHTML=id;
+                    fl=1;
+                }
+            }
+        </script>
+</body>
+</html>
