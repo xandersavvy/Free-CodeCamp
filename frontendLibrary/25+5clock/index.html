@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25+5 clock</title>
+</head>
+<body>
+   <div id="app">
+       <h1>Clock</h1>
+       <div id="session">
+        <h2>Session</h2>
+        <button onclick="decrement()">
+          -
+        </button>
+        <span id="session-length">
+
+        </span>
+          <button onclick="increment()">
+              +
+          </button>
+       </div>
+       <div id="timer">
+           
+       </div>
+       <div id="buttons">
+              <button id="start_stop" onclick="start_stop()">Start</button>
+              <button id="reset" v-if="notstarted" @click="reset">Reset</button>
+       </div>
+   </div> 
+    <script>
+        let timer = 25;
+        let started = false;
+        let sessionCounter = document.getElementById('session-length');
+        let timerHolder = document.getElementById('timer'); 
+        sessionCounter.innerText = timer;
+        timerHolder.innerText = `${timer} : 00`;
+        function start_stop(){
+            started = !started;
+            if(started){
+                document.getElementById('start_stop').innerText = 'Stop';
+                timerHolder.innerText = timer;
+                startTimer(timer);
+            }
+            else{
+                document.getElementById('start_stop').innerText = 'Start';
+                clearInterval(interval);
+            }
+            
+        }
+        function increment() {
+            if(timer<60){
+            timer++;
+            sessionCounter.innerText = timer;
+            }
+        }
+
+        function decrement() {
+            if(timer>1){
+            timer--;
+            sessionCounter.innerText = timer;
+            }
+        }
+        function startTimer(time){
+            if(timerSecond >0 && started){
+                setInterval(timerSecond--,1000);
+                timerHolder.innerText = `${timer} : ${timerSecond}`;
+                if(timerSecond < 10){
+                    timerHolder.innerText = `${timer} : 0${timerSecond}`;
+                }
+                }else if(timer>0&&started){
+                    timerSecond = 59;
+                    timer--;
+                }
+                
+            }
+
+        }
+        onkeypress = function(e){
+            if(e.key=='+'){
+                increment();
+            }
+            else if(e.key=='-'){
+                decrement();
+            }
+        }
+    </script>
+</body>
+</html>
